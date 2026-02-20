@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"pokedex/internal"
+	"time"
 )
 
 type pokemonLocationArea struct {
@@ -17,9 +19,21 @@ type pokemonLocationArea struct {
 	} `json:"results"`
 }
 
-func fetchData(url string) (pokemonLocationArea, error) {
-	var locationData pokemonLocationArea
+// Initialize the cache with an interval of how long cache results are stored in time.Minute(s)
+var cache = internal.NewCache(5 * time.Minute)
 
+func fetchData(url string) (pokemonLocationArea, error) {
+	data, ok := cache.Get(url)
+	if ok {
+		var locationData pokemonLocationArea
+		err := json.Unmarshal(data, &locationData)
+		if err != nil {
+			return locationData, fmt.Errorf("failed to unmarshal cached data: %w", err)
+		}
+		return locationData, nil
+	}
+
+	var locationData pokemonLocationArea
 	res, err := http.Get(url)
 	if err != nil {
 		return locationData, fmt.Errorf("failed to fetch data: %w", err)
