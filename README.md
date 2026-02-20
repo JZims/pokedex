@@ -1,0 +1,1 @@
+A terminal pokedex made using Go and the pokeapi.co api
