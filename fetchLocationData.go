@@ -9,21 +9,18 @@ import (
 	"time"
 )
 
-type pokemonLocationArea struct {
-	Count    int    `json:"count"`
-	Next     string `json:"next"`
-	Previous string `json:"previous"`
-	Results  []struct {
-		Name string `json:"name"`
-		URL  string `json:"url"`
-	} `json:"results"`
-}
-
 // Initialize the cache with an interval of how long cache results are stored in time.Minute(s)
-var cache = internal.NewCache(5 * time.Minute)
+var locationCache = internal.NewCache(5 * time.Minute)
 
-func fetchData(url string) (pokemonLocationArea, error) {
-	data, ok := cache.Get(url)
+func fetchLocationData(url string) (pokemonLocationArea, error) {
+	// Check Cache
+	// Return Cache values if present
+	// Make Fetch
+	// Checks: - Did the call fail? - Did the Body read fail? - Is the status code bad? - Did the Unmarshal fail?
+	// Close the body
+	// Return unmarshaled struct
+
+	data, ok := locationCache.Get(url)
 	if ok {
 		var locationData pokemonLocationArea
 		err := json.Unmarshal(data, &locationData)
@@ -38,12 +35,12 @@ func fetchData(url string) (pokemonLocationArea, error) {
 	if err != nil {
 		return locationData, fmt.Errorf("failed to fetch data: %w", err)
 	}
-	defer res.Body.Close()
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return locationData, fmt.Errorf("failed to read response body: %w", err)
 	}
+	defer res.Body.Close()
 
 	if res.StatusCode > 299 {
 		return locationData, fmt.Errorf("response failed with status code: %d, body: %s", res.StatusCode, body)
