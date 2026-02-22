@@ -12,12 +12,6 @@ import (
 var exploreCache = internal.NewCache(5 * time.Minute)
 
 func fetchPokemonData(url string) (pokemonEncounter, error) {
-	// Check Cache
-	// Return Cache values if present
-	// Make Fetch
-	// Checks: - Did the call fail? - Did the Body read fail? - Is the status code bad? - Did the Unmarshal fail?
-	// Close the body
-	// Return unmarshaled struct
 
 	data, ok := exploreCache.Get(url)
 	if ok {

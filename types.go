@@ -9,7 +9,7 @@ type cliCommand struct {
 	name        string
 	description string
 	config      config
-	callback    func(*config, string) error
+	callback    func(*config, ...string) error
 }
 
 type pokemonLocationArea struct {

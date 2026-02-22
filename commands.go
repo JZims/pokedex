@@ -40,13 +40,13 @@ func getCommands(configData *config) map[string]cliCommand {
 	}
 }
 
-func commandExit(configData *config, areaName string) error {
+func commandExit(configData *config, areaName ...string) error {
 	fmt.Println("Closing the Pokedex... Goodbye!")
 	os.Exit(0)
 	return nil
 }
 
-func commandHelp(configData *config, areaName string) error {
+func commandHelp(configData *config, areaName ...string) error {
 	fmt.Print("\nWelcome to the Pokedex!\n")
 	fmt.Print("Usage:\n\n")
 	for name, description := range getCommands(&config{}) {
@@ -55,7 +55,7 @@ func commandHelp(configData *config, areaName string) error {
 	return nil
 }
 
-func commandMap(configData *config, areaName string) error {
+func commandMap(configData *config, areaName ...string) error {
 	url := "https://pokeapi.co/api/v2/location-area"
 	if configData.Next != nil && *configData.Next != "" {
 		url = *configData.Next
@@ -85,7 +85,7 @@ func commandMap(configData *config, areaName string) error {
 	return nil
 }
 
-func commandMapB(configData *config, areaName string) error {
+func commandMapB(configData *config, areaName ...string) error {
 	if configData.Previous == nil || *configData.Previous == "" {
 		fmt.Println("You're on the first page")
 		return nil
@@ -115,15 +115,16 @@ func commandMapB(configData *config, areaName string) error {
 	return nil
 }
 
-func commandExplore(configData *config, areaName string) error {
-	url := fmt.Sprintf("https://pokeapi.co/api/v2/location-area/%v", areaName)
+func commandExplore(configData *config, args ...string) error {
+	url := fmt.Sprintf("https://pokeapi.co/api/v2/location-area/%v", args[1])
 	pokemonData, err := fetchPokemonData(url)
 	if err != nil {
 		fmt.Printf("Error fetching data: %v\n", err)
-	}
-	fmt.Println("Found Pokemon:")
-	for _, pokemon := range pokemonData.PokemonEncounters {
-		fmt.Printf("- %v\n", pokemon.Pokemon.Name)
+	} else {
+		fmt.Println("Found Pokemon:")
+		for _, pokemon := range pokemonData.PokemonEncounters {
+			fmt.Printf("- %v\n", pokemon.Pokemon.Name)
+		}
 	}
 
 	return nil

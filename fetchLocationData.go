@@ -13,12 +13,6 @@ import (
 var locationCache = internal.NewCache(5 * time.Minute)
 
 func fetchLocationData(url string) (pokemonLocationArea, error) {
-	// Check Cache
-	// Return Cache values if present
-	// Make Fetch
-	// Checks: - Did the call fail? - Did the Body read fail? - Is the status code bad? - Did the Unmarshal fail?
-	// Close the body
-	// Return unmarshaled struct
 
 	data, ok := locationCache.Get(url)
 	if ok {
