@@ -9,8 +9,9 @@ import (
 func main() {
 
 	configData := config{
-		Next:     nil,
-		Previous: nil,
+		Next:          nil,
+		Previous:      nil,
+		caughtPokemon: make(map[string]pokemon),
 	}
 	commands := getCommands(&configData)
 	scanner := bufio.NewScanner(os.Stdin)
@@ -30,8 +31,6 @@ func main() {
 			fmt.Print("Unknown command")
 			continue
 		}
-
-		// Explore Command-specific
 		if input[0] == "explore" && len(input) < 2 {
 			fmt.Println("No area argument provided. Try again.")
 			continue

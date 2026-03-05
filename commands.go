@@ -32,10 +32,16 @@ func getCommands(configData *config) map[string]cliCommand {
 			callback:    commandMapB,
 		},
 		"explore": {
-			name:        "explore",
+			name:        "explore <location_name>",
 			description: "Displays a list of available Pokemon in the area given as a parameter",
 			config:      *configData,
 			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch <pokemon_name>",
+			description: "attempt to catch a pokemon",
+			config:      *configData,
+			callback:    commandCatch,
 		},
 	}
 }
@@ -126,6 +132,11 @@ func commandExplore(configData *config, args ...string) error {
 			fmt.Printf("- %v\n", pokemon.Pokemon.Name)
 		}
 	}
+
+	return nil
+}
+
+func commandCatch(configData *config, args ...string) error {
 
 	return nil
 }

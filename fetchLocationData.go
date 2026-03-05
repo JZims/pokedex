@@ -10,7 +10,7 @@ import (
 )
 
 // Initialize the cache with an interval of how long cache results are stored in time.Minute(s)
-var locationCache = internal.NewCache(5 * time.Minute)
+var locationCache = internal.NewCache(5*time.Minute, 5*time.Second)
 
 func fetchLocationData(url string) (pokemonLocationArea, error) {
 

@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-var exploreCache = internal.NewCache(5 * time.Minute)
+var exploreCache = internal.NewCache(5*time.Minute, 5*time.Second)
 
 func fetchPokemonData(url string) (pokemonEncounter, error) {
 

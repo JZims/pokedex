@@ -1,10 +1,5 @@
 package main
 
-type config struct {
-	Next     *string
-	Previous *string
-}
-
 type cliCommand struct {
 	name        string
 	description string
@@ -29,4 +24,7 @@ type pokemonEncounter struct {
 			URL  string `json:"url"`
 		} `json:"pokemon"`
 	} `json:"pokemon_encounters"`
+}
+
+type pokemon struct {
 }
